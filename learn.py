@@ -23,7 +23,6 @@ def define_model():
     model.add(layers.Dense(16, activation="relu"))
     model.add(layers.Dense(8, activation="relu"))
     model.add(layers.Dense(4, activation="relu"))
-    # change from 4 to 5 if clear implemented
     model.add(layers.Dense(1, activation="linear"))
 
     # model.summary()
