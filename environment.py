@@ -104,7 +104,7 @@ class Game2048:
         self.grid = [[0 for _ in range(self.width)] for _ in range(self.width)]
 
     def get_random_action(self):
-        pass
+        return random.randint(0, 3)
 
     def reset(self):
         self.grid = [[0 for _ in range(self.width)] for _ in range(self.width)]
