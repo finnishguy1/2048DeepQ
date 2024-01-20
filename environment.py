@@ -11,13 +11,13 @@ class Game2048:
         self.score = 0
 
     def move(self, dir):
-        if dir == "l":
+        if dir == 0:
             moved = self.move_left()
-        elif dir == "u":
+        elif dir == 1:
             moved = self.move_up()
-        elif dir == "r":
+        elif dir == 2:
             moved = self.move_right()
-        elif dir == "d":
+        elif dir == 3:
             moved = self.move_down()
         else:
             print("Invalid direction, please try again: ")
