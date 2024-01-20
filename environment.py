@@ -13,6 +13,10 @@ class Game2048:
 
         def move_left():
             # the others are handled as transpose of this case
+            for row in self.grid():
+                for j in range(1, len(row)):
+                    for i in range(j - 1, -1, -1):
+
 
         def add_block(self):
             # if empty_cells is empty, game lost probably
