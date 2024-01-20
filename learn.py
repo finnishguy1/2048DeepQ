@@ -12,6 +12,14 @@ from environment import Game2048
 # initializing the model
 
 
+num_to_dir = {
+    0: "L",
+    1: "U",
+    2: "R",
+    3: "D",
+}
+
+
 # copy model and weights
 def modelCopy(model):
     model2 = keras.models.clone_model(model)
@@ -55,6 +63,9 @@ def do_step(env, model, epsilon):
 
     reward = env.get_score() - old_score
     next_state = env.state()
+
+    print(num_to_dir[action])
+    env.print_grid()
     return (state, action, reward, next_state)
 
 
