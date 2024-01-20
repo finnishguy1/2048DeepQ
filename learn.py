@@ -1,7 +1,7 @@
 import tensorflow as tf
 import keras
 from keras import layers
-
+import random
 
 #initializing the model
 model = keras.Sequential()
@@ -17,3 +17,13 @@ model.summary()
 model.compile(optimizer="adam", loss=keras.losses.MSE)
 
 
+
+def main():
+        #defining parametres
+        iterations, limit = (0, 10000)
+        epsilon = 0.1
+
+
+
+if __name__ == "__main__":
+        main()
