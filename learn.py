@@ -70,6 +70,17 @@ def random_batch(sars, size):
     return random.sample(sars, size)
 
 
+def sample_processing(batch, model, model2):
+    x = []
+    y = []
+    for state, action, reward, next_state in batch:
+        x.append(model(state))
+        vals = model2(next_state)
+        vals[action] += reward
+        y.append(vals)
+    return (x, y)
+
+
 def play(env, model, epsilon, copy, gamma, batch_size):
     sars = deque()
 
