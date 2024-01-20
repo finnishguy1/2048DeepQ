@@ -75,10 +75,10 @@ def main():
                         )
 
                 # update model
-                print(max(model2(tf.convert_to_tensor(sarsa[0][0]))))
+                print((model2(tf.convert_to_tensor(sarsa[0][0]))))
                 model.fit(
-                    max(model2(tf.convert_to_tensor(sarsa[0][0]))),
-                    target,
+                    model2(tf.convert_to_tensor(sarsa[0][0])),
+                    tf.constant(target),
                     batch_size=batchSize,
                 )
 
