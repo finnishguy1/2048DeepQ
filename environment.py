@@ -11,13 +11,13 @@ class Game2048:
         self.score = 0
 
     def move(self, dir):
-        if dir == "0":
+        if dir == 0:
             moved = self.move_left()
-        elif dir == "1":
+        elif dir == 1:
             moved = self.move_up()
-        elif dir == "2":
+        elif dir == 2:
             moved = self.move_right()
-        elif dir == "3":
+        elif dir == 3:
             moved = self.move_down()
         else:
             print("Invalid direction, please try again: ")
@@ -25,7 +25,7 @@ class Game2048:
 
         if self.lost():
             print("Game over!")
-            return 1
+            return
 
         if self.empty_cells():
             self.add_block()
@@ -115,6 +115,9 @@ class Game2048:
         for row in self.grid:
             print(row)
         print()
+
+    def state(self):
+        return self.grid
 
 
 def main():
