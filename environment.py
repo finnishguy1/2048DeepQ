@@ -100,6 +100,10 @@ class Game2048:
                 if i > j:
                     self.grid[i][j], self.grid[j][i] = self.grid[j][i], self.grid[i][j]
 
+    def reset(self):
+        self.grid = [[0 for _ in range(self.width)] for _ in range(self.width)]
+        self.score = 0
+
     def reverse_rows(self):
         for i in range(self.height):
             self.grid[i] = self.grid[i][::-1]
