@@ -74,9 +74,9 @@ def sample_processing(batch, model, model2):
     x, y = [], []
     for state, action, reward, next_state in batch:
         q = model(make_model_compatible(state))
-        x.append(q)
-        vals = model2(make_model_compatible(next_state))
-        q[action] = vals[action] + reward
+        x.append(state)
+        vals = max(model2(make_model_compatible(next_state)))
+        q[action] = vals + reward
         y.append(q)
     return (x, y)
 
