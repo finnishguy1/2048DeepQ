@@ -66,6 +66,10 @@ def go_forward_c_steps(env, model, epsilon, c):
     return cur_sars
 
 
+def random_batch(sars, size):
+    return random.sample(sars, size)
+
+
 def play(env, model, epsilon, copy, gamma, batch_size):
     sars = deque()
 
@@ -73,7 +77,7 @@ def play(env, model, epsilon, copy, gamma, batch_size):
         sars.extend(go_forward_c_steps(env, model, epsilon, copy))
 
         # now we need to train/fit the model
-        batch = []
+        batch = random_batch(sars, 20)
 
 
 def main():
