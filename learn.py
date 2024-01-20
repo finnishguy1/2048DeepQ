@@ -88,7 +88,7 @@ def play(env, model, model_prime, epsilon, copy, batch_size):
         sars.extend(go_forward_c_steps(env, model, epsilon, copy))
 
         # now we need to train/fit the model
-        batch = random_batch(sars, 20)
+        batch = random_batch(sars, min(batch_size, len(sars)))
         processed = sample_processing(batch, model, model_prime)
 
 
