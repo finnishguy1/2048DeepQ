@@ -81,7 +81,7 @@ def sample_processing(batch, model, model2):
     return (x, y)
 
 
-def play(env, model, epsilon, copy, gamma, batch_size):
+def play(env, model, model2, epsilon, copy, batch_size):
     sars = deque()
 
     while not env.lost():
@@ -89,6 +89,7 @@ def play(env, model, epsilon, copy, gamma, batch_size):
 
         # now we need to train/fit the model
         batch = random_batch(sars, 20)
+        processed = sample_processing(batch, model, model2)
 
 
 def main():
@@ -101,12 +102,11 @@ def main():
     copy = 10
     model = define_model()
     model2 = modelCopy(model)
-    gamma = 0.9
 
     sarsa = []
     while iterations < limit:
         env.reset()
-        play(env, model, epsilon, copy, gamma, batch_size)
+        play(env, model, model2, epsilon, copy, batch_size)
         iterations += 1
 
 
