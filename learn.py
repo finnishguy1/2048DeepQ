@@ -48,12 +48,12 @@ def epsilon_greedy(env, model, epsilon):
 
 def do_step(env, model, epsilon):
     state = env.state()
-    old_score = env.score
+    old_score = env.get_score()
 
     action = epsilon_greedy(env, model, epsilon)
     env.move(action)
 
-    reward = env.score - old_score
+    reward = env.get_score() - old_score
     next_state = env.state()
     return (state, action, reward, next_state)
 
