@@ -3,13 +3,12 @@ import random
 
 
 class Game2048:
-
     def __init__(self, height, width):
         self.height = height
         self.width = width
 
         self.grid = [[0 for _ in range(self.width)] for _ in range(self.width)]
-
+        self.score = 0
 
     def move(self, dir):
         if dir == "l":
@@ -31,7 +30,6 @@ class Game2048:
         if self.empty_cells():
             self.add_block()
 
-
     def move_left(self):
         # the others are handled as transposes of this case
         moved = False
@@ -42,8 +40,9 @@ class Game2048:
                     row[k] = row[k + 1]
                     row[k + 1] = 0
                     k -= 1
-                if k >= 0 and row[k] == row[k + 1]: 
+                if k >= 0 and row[k] == row[k + 1]:
                     row[k] *= 2
+                    self.score += row[k]
                     row[k + 1] = 0
                     moved = True
         return moved
@@ -53,38 +52,40 @@ class Game2048:
         moved = self.move_left()
         self.transpose_grid()
         return moved
-    
+
     def move_right(self):
         self.reverse_rows()
         moved = self.move_left()
         self.reverse_rows()
         return moved
-    
+
     def move_down(self):
         self.transpose_grid()
         moved = self.move_right()
         self.transpose_grid()
         return moved
-    
+
     def lost(self):
         lost = not self.empty_cells()
         for i in range(self.height):
             for j in range(self.width):
                 for dy, dx in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                    if i + dy < 0 or i + dy >= self.height or j + dx < 0 or j + dx >= self.width:
+                    if (
+                        i + dy < 0
+                        or i + dy >= self.height
+                        or j + dx < 0
+                        or j + dx >= self.width
+                    ):
                         continue
                     if self.grid[i][j] == self.grid[i + dy][j + dx]:
                         lost = False
         return lost
-
-
 
     def add_block(self):
         # if empty_cells is empty, game lost probably
         y, x = random.choice(self.empty_cells())
         num = 2 if random.random() > 0.1 else 4
         self.grid[y][x] = num
-
 
     def empty_cells(self):
         empty_cells = []
@@ -93,23 +94,23 @@ class Game2048:
                 empty_cells.append((y, x))
         return empty_cells
 
-
     def transpose_grid(self):
         for i in range(self.height):
             for j in range(self.width):
-                if i > j: self.grid[i][j], self.grid[j][i] = self.grid[j][i], self.grid[i][j]
-     
+                if i > j:
+                    self.grid[i][j], self.grid[j][i] = self.grid[j][i], self.grid[i][j]
+
     def reverse_rows(self):
         for i in range(self.height):
             self.grid[i] = self.grid[i][::-1]
+
+    def score(self):
+        return self.score
 
     def print_grid(self):
         for row in self.grid:
             print(row)
         print()
-
-
-
 
 
 def main():
