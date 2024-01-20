@@ -6,6 +6,7 @@ import numpy as np
 import tensorflow as tf
 import keras
 from keras import layers
+import matplotlib.pyplot as plt
 
 from environment import Game2048
 
@@ -32,14 +33,14 @@ def define_model():
     model = keras.Sequential()
 
     model.add(keras.Input(shape=(4, 4)))
-    model.add(layers.Dense(16, activation="relu"))
-    model.add(layers.Dense(8, activation="relu"))
-    model.add(layers.Dense(4, activation="relu"))
+    model.add(layers.Dense(258, activation="relu"))
+    model.add(layers.Dense(129, activation="relu"))
+    model.add(layers.Dense(60, activation="relu"))
     model.add(layers.Dense(1, activation="linear"))
 
     # model.summary()
 
-    model.compile(optimizer="adam", loss=keras.losses.MSE)
+    model.compile(optimizer="adam", loss=keras.losses.mean_squared_error)
     return model
 
 
@@ -64,8 +65,6 @@ def do_step(env, model, epsilon):
     reward = env.get_score() - old_score
     next_state = env.state()
 
-    print(num_to_dir[action])
-    env.print_grid()
     return (state, action, reward, next_state)
 
 
@@ -86,7 +85,7 @@ def sample_processing(batch, model, model_prime):
     for state, action, reward, next_state in batch:
         q = model(make_model_compatible(state)).numpy()
         x.append(state)
-        vals = max(model_prime(make_model_compatible(next_state)))
+        vals = 0.9 * max(model_prime(make_model_compatible(next_state)))
         q[action] = vals + reward
         y.append(q)
     return (x, y)
@@ -119,14 +118,15 @@ def play(env, model, model_prime, epsilon, c, copy, batch_size):
 def main():
     # defining parametres
     # copy defines how often we copy the policy network into target network (model to model2)
-    iterations, limit = 0, 1000
+    iterations, limit = 0, 5000
     epsilon = 0.1
     env = Game2048(4, 4)
-    batch_size = 60
+    batch_size = 64
     copy = 5
     c = 100
     model = define_model()
     model_prime = modelCopy(model)
+    score = []
 
     sarsa = []
     while iterations < limit:
@@ -135,6 +135,11 @@ def main():
         iterations += 1
         print(env.get_score())
         print(iterations)
+        score.append(env.get_score())
+        if iterations % 5 == 0:
+            y_points = np.array(score)
+            plt.plot(y_points)
+            plt.show()
 
 
 if __name__ == "__main__":

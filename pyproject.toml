@@ -8,6 +8,7 @@ authors = ["Your Name <you@example.com>"]
 python = ">=3.10, <3.12"
 tensorflow = "^2.15.0"
 keras = "2.15.0"
+matplotlib = "^3.8.2"
 
 [tool.poetry.dev-dependencies]
 

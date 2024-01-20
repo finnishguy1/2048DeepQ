@@ -42,12 +42,64 @@ optional = false
 python-versions = ">=3.7.0"
 
 [[package]]
+name = "contourpy"
+version = "1.2.0"
+description = "Python library for calculating contours of 2D quadrilateral grids"
+category = "main"
+optional = false
+python-versions = ">=3.9"
+
+[package.dependencies]
+numpy = ">=1.20,<2.0"
+
+[package.extras]
+docs = ["furo", "sphinx (>=7.2)", "sphinx-copybutton"]
+bokeh = ["bokeh", "selenium"]
+mypy = ["contourpy", "docutils-stubs", "mypy (==1.6.1)", "types-pillow"]
+test = ["contourpy", "matplotlib", "pillow"]
+test-no-images = ["pytest", "pytest-cov", "pytest-xdist", "wurlitzer"]
+
+[[package]]
+name = "cycler"
+version = "0.12.1"
+description = "Composable style cycles"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+docs = ["ipython", "matplotlib", "numpydoc", "sphinx"]
+tests = ["pytest", "pytest-cov", "pytest-xdist"]
+
+[[package]]
 name = "flatbuffers"
 version = "23.5.26"
 description = "The FlatBuffers serialization format for Python"
 category = "main"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "fonttools"
+version = "4.47.2"
+description = "Tools to manipulate font files"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+all = ["fs (>=2.2.0,<3)", "lxml (>=4.0,<5)", "zopfli (>=0.1.4)", "lz4 (>=1.7.4.2)", "pycairo", "matplotlib", "sympy", "skia-pathops (>=0.5.0)", "uharfbuzz (>=0.23.0)", "brotlicffi (>=0.8.0)", "scipy", "brotli (>=1.0.1)", "munkres", "unicodedata2 (>=15.1.0)", "xattr"]
+graphite = ["lz4 (>=1.7.4.2)"]
+interpolatable = ["pycairo", "scipy", "munkres"]
+lxml = ["lxml (>=4.0,<5)"]
+pathops = ["skia-pathops (>=0.5.0)"]
+plot = ["matplotlib"]
+repacker = ["uharfbuzz (>=0.23.0)"]
+symfont = ["sympy"]
+type1 = ["xattr"]
+ufo = ["fs (>=2.2.0,<3)"]
+unicode = ["unicodedata2 (>=15.1.0)"]
+woff = ["zopfli (>=0.1.4)", "brotlicffi (>=0.8.0)", "brotli (>=1.0.1)"]
 
 [[package]]
 name = "gast"
@@ -142,6 +194,14 @@ optional = false
 python-versions = ">=3.8"
 
 [[package]]
+name = "kiwisolver"
+version = "1.4.5"
+description = "A fast implementation of the Cassowary constraint solver"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "libclang"
 version = "16.0.6"
 description = "Clang Python Bindings, mirrored from the official LLVM repo: https://github.com/llvm/llvm-project/tree/main/clang/bindings/python, to make the installation process easier."
@@ -168,6 +228,25 @@ description = "Safely add untrusted strings to HTML/XML markup."
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "matplotlib"
+version = "3.8.2"
+description = "Python plotting package"
+category = "main"
+optional = false
+python-versions = ">=3.9"
+
+[package.dependencies]
+contourpy = ">=1.0.1"
+cycler = ">=0.10"
+fonttools = ">=4.22.0"
+kiwisolver = ">=1.3.1"
+numpy = ">=1.21,<2"
+packaging = ">=20.0"
+pillow = ">=8"
+pyparsing = ">=2.3.1"
+python-dateutil = ">=2.7"
 
 [[package]]
 name = "ml-dtypes"
@@ -232,6 +311,22 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "pillow"
+version = "10.2.0"
+description = "Python Imaging Library (Fork)"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+docs = ["furo", "olefile", "sphinx (>=2.4)", "sphinx-copybutton", "sphinx-inline-tabs", "sphinx-removed-in", "sphinxext-opengraph"]
+fpx = ["olefile"]
+mic = ["olefile"]
+tests = ["check-manifest", "coverage", "defusedxml", "markdown2", "olefile", "packaging", "pyroma", "pytest", "pytest-cov", "pytest-timeout"]
+typing = ["typing-extensions"]
+xmp = ["defusedxml"]
+
+[[package]]
 name = "protobuf"
 version = "4.23.4"
 description = ""
@@ -257,6 +352,28 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
 
 [package.dependencies]
 pyasn1 = ">=0.4.6,<0.6.0"
+
+[[package]]
+name = "pyparsing"
+version = "3.1.1"
+description = "pyparsing module - Classes and methods to define and execute parsing grammars"
+category = "main"
+optional = false
+python-versions = ">=3.6.8"
+
+[package.extras]
+diagrams = ["railroad-diagrams", "jinja2"]
+
+[[package]]
+name = "python-dateutil"
+version = "2.8.2"
+description = "Extensions to the standard Python datetime module"
+category = "main"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+
+[package.dependencies]
+six = ">=1.5"
 
 [[package]]
 name = "requests"
@@ -453,7 +570,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.10, <3.12"
-content-hash = "7f5d5e42dc4f1bdf75fb371bb3a95e86b631cf417f6af4adb455c320e18c40ba"
+content-hash = "046719bb9cccab38f905f25a8160d408397249dd48f47d2c7147e140ec593abc"
 
 [metadata.files]
 absl-py = []
@@ -461,7 +578,10 @@ astunparse = []
 cachetools = []
 certifi = []
 charset-normalizer = []
+contourpy = []
+cycler = []
 flatbuffers = []
+fonttools = []
 gast = []
 google-auth = []
 google-auth-oauthlib = []
@@ -470,17 +590,22 @@ grpcio = []
 h5py = []
 idna = []
 keras = []
+kiwisolver = []
 libclang = []
 markdown = []
 markupsafe = []
+matplotlib = []
 ml-dtypes = []
 numpy = []
 oauthlib = []
 opt-einsum = []
 packaging = []
+pillow = []
 protobuf = []
 pyasn1 = []
 pyasn1-modules = []
+pyparsing = []
+python-dateutil = []
 requests = []
 requests-oauthlib = []
 rsa = []
