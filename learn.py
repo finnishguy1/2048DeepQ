@@ -48,12 +48,12 @@ def epsilon_greedy(env, model, epsilon):
 
 def do_step(env, model, epsilon):
     state = env.state()
-    old_score = env.score()
+    old_score = env.score
 
     action = epsilon_greedy(env, model, epsilon)
     env.move(action)
 
-    reward = env.score() - old_score
+    reward = env.score - old_score
     next_state = env.state()
     return (state, action, reward, next_state)
 
@@ -73,7 +73,7 @@ def random_batch(sars, size):
 def sample_processing(batch, model, model_prime):
     x, y = [], []
     for state, action, reward, next_state in batch:
-        q = model(make_model_compatible(state))
+        q = model(make_model_compatible(state)).numpy()
         x.append(state)
         vals = max(model_prime(make_model_compatible(next_state)))
         q[action] = vals + reward
@@ -97,7 +97,7 @@ def play(env, model, model_prime, epsilon, c, copy, batch_size):
 
         if steps >= copy:
             steps = 0
-            model2 = modelCopy(model)
+            model_prime = modelCopy(model)
 
 
 def main():
