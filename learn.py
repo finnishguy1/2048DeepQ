@@ -97,7 +97,7 @@ def play(env, model, model_prime, epsilon, c, copy, batch_size):
 
         if steps >= copy:
             steps = 0
-            model2 = modelCopy(model)
+            model_prime = modelCopy(model)
 
 
 def main():
