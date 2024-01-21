@@ -91,7 +91,9 @@ def play(env, model, model_prime, epsilon, c, copy, batch_size):
 
         # now we need to train/fit the model
         batch = random_batch(sars, min(batch_size, len(sars)))
-        processed = sample_processing(batch, model, model_prime)
+        x, y = sample_processing(batch, model, model_prime)
+
+        model.fit(x, y, batch_size=batch_size, epochs=1)
 
 
 def main():
@@ -102,13 +104,14 @@ def main():
     env = Game2048(4, 4)
     batch_size = 1
     copy = 10
+    c = 10
     model = define_model()
     model_prime = modelCopy(model)
 
     sarsa = []
     while iterations < limit:
         env.reset()
-        play(env, model, model_prime, epsilon, copy, batch_size)
+        play(env, model, model_prime, epsilon, c, copy, batch_size)
         iterations += 1
 
 
