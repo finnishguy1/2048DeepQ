@@ -73,11 +73,11 @@ def random_batch(sars, size):
 def sample_processing(batch, model, model2):
     x, y = [], []
     for state, action, reward, next_state in batch:
-        Q = model(make_model_compatible(state))
-        x.append(Q)
+        q = model(make_model_compatible(state))
+        x.append(q)
         vals = model2(make_model_compatible(next_state))
-        Q[action] = vals[action] + reward
-        y.append(Q)
+        q[action] = vals[action] + reward
+        y.append(q)
     return (x, y)
 
 
