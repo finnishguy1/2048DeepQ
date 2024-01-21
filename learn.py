@@ -31,7 +31,7 @@ def modelCopy(model):
 def main():
     # defining parametres
     # copy defines how often we copy the policy network into target network (model to model2)
-    iterations, limit = (0, 10)
+    iterations, limit = 0, 10
     epsilon = 0.1
     env = Game2048(4, 4)
     batchSize = 1
@@ -51,8 +51,7 @@ def main():
             # implement epsilon greedy here
             action = tf.argmax(Q)[0]
             env.move(action)
-            lost = counter < 100
-            if lost:
+            if env.lost():
                 playing = False
 
             reward = env.score
