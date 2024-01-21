@@ -93,7 +93,12 @@ def play(env, model, model_prime, epsilon, c, copy, batch_size):
         batch = random_batch(sars, min(batch_size, len(sars)))
         x, y = sample_processing(batch, model, model_prime)
 
-        model.fit(x, y, batch_size=batch_size, epochs=1)
+        model.fit(
+            make_model_compatible(x),
+            make_model_compatible(y),
+            batch_size=batch_size,
+            epochs=1,
+        )
 
         if steps >= copy:
             steps = 0
