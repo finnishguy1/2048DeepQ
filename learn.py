@@ -1,9 +1,12 @@
+import random
+from math import pow
+
+import numpy as np
 import tensorflow as tf
 import keras
 from keras import layers
-import random
+
 from environment import Game2048
-from math import pow
 
 # initializing the model
 
@@ -32,47 +35,45 @@ def define_model():
     return model
 
 
-def play(env, epsilon, copy, gamma, batch_size, model):
+def make_model_compatible(state):
+    return tf.convert_to_tensor(state)
+
+
+def epsilon_greedy(env, model, epsilon):
+    # returns an action using epsilon greedy policy
+    if random.random() > epsilon:
+        return np.argmax(model(make_model_compatible(env.state())))
+    return env.get_random_action()
+
+
+def do_step(env, model, epsilon):
+    state = env.state()
+    old_score = env.score()
+    q = model(make_model_compatible(state))
+
+    action = epsilon_greedy(env, model, epsilon)
+    env.move(action)
+
+    reward = env.score() - old_score
+    next_state = env.state()
+    return (state, action, reward, next_state)
+
+
+def go_forward_c_steps(env, model, epsilon, c):
+    cur_sars = []
+    while not env.lost() and c > 0:
+        cur_sars.append(do_step(env, model, epsilon))
+        c -= 1
+    return cur_sars
+
+
+def play(env, model, epsilon, copy, gamma, batch_size):
+    sars = []
+
     while not env.lost():
-        state = env.state()
-        Q = model(tf.convert_to_tensor(state))
-        # implement epsilon greedy here
-        action = tf.argmax(Q)[0]
-        env.move(action)
-        if env.lost():
-            playing = False
+        sars.extend(go_forward_c_steps(env, model, epsilon, copy))
 
-        reward = env.score
-        nextState = env.state()
-        nextAction = tf.argmax(model(tf.convert_to_tensor(nextState)))
-
-        sarsa.append([state, action, reward, nextState, nextAction])
-
-        # for later to change batch size, train model then empty the sarsa
-        if counter % batch_size == 0 or not playing:
-            target = 0
-            # adds upp all the rewards in the sarsa list and then the last max Q value
-            for i, list in enumerate(sarsa):
-                if i != len(sarsa) - 1:
-                    target += pow(gamma, i) * list[2]
-                if i == len(sarsa) - 1:
-                    # print(model2(tf.convert_to_tensor(list[3])))
-                    target += pow(gamma, i) * max(model2(tf.convert_to_tensor(list[3])))
-
-            # update model
-            print((model2(tf.convert_to_tensor(sarsa[0][0]))))
-            model.fit(
-                sarsa[0][0],
-                batch_size=batch_size,
-            )
-
-            # resets sarsa
-            sarsa = []
-
-        if counter % copy == 0:
-            model2 = modelCopy(model)
-
-        counter += 1
+        # now we need to train/fit the model
 
 
 def main():
