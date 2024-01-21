@@ -114,7 +114,7 @@ class Game2048:
         for i in range(self.height):
             self.grid[i] = self.grid[i][::-1]
 
-    def score(self):
+    def get_score(self):
         return self.score
 
     def print_grid(self):
