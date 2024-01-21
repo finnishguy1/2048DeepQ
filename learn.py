@@ -81,11 +81,13 @@ def sample_processing(batch, model, model_prime):
     return (x, y)
 
 
-def play(env, model, model_prime, epsilon, copy, batch_size):
+def play(env, model, model_prime, epsilon, c, copy, batch_size):
     sars = deque()
+    steps = 0
 
     while not env.lost():
-        sars.extend(go_forward_c_steps(env, model, epsilon, copy))
+        sars.extend(go_forward_c_steps(env, model, epsilon, c))
+        steps += c
 
         # now we need to train/fit the model
         batch = random_batch(sars, 20)
