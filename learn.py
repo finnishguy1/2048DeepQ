@@ -70,18 +70,18 @@ def random_batch(sars, size):
     return random.sample(sars, size)
 
 
-def sample_processing(batch, model, model2):
+def sample_processing(batch, model, model_prime):
     x, y = [], []
     for state, action, reward, next_state in batch:
         q = model(make_model_compatible(state))
         x.append(state)
-        vals = max(model2(make_model_compatible(next_state)))
+        vals = max(model_prime(make_model_compatible(next_state)))
         q[action] = vals + reward
         y.append(q)
     return (x, y)
 
 
-def play(env, model, model2, epsilon, copy, batch_size):
+def play(env, model, model_prime, epsilon, copy, batch_size):
     sars = deque()
 
     while not env.lost():
@@ -89,7 +89,7 @@ def play(env, model, model2, epsilon, copy, batch_size):
 
         # now we need to train/fit the model
         batch = random_batch(sars, 20)
-        processed = sample_processing(batch, model, model2)
+        processed = sample_processing(batch, model, model_prime)
 
 
 def main():
@@ -101,12 +101,12 @@ def main():
     batch_size = 1
     copy = 10
     model = define_model()
-    model2 = modelCopy(model)
+    model_prime = modelCopy(model)
 
     sarsa = []
     while iterations < limit:
         env.reset()
-        play(env, model, model2, epsilon, copy, batch_size)
+        play(env, model, model_prime, epsilon, copy, batch_size)
         iterations += 1
 
 
