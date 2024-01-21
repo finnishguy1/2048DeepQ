@@ -119,12 +119,12 @@ def play(env, model, model_prime, epsilon, c, copy, batch_size):
 def main():
     # defining parametres
     # copy defines how often we copy the policy network into target network (model to model2)
-    iterations, limit = 0, 10
+    iterations, limit = 0, 1000
     epsilon = 0.1
     env = Game2048(4, 4)
-    batch_size = 1
-    copy = 20
-    c = 10
+    batch_size = 60
+    copy = 5
+    c = 100
     model = define_model()
     model_prime = modelCopy(model)
 
@@ -133,6 +133,8 @@ def main():
         env.reset()
         play(env, model, model_prime, epsilon, c, copy, batch_size)
         iterations += 1
+        print(env.get_score())
+        print(iterations)
 
 
 if __name__ == "__main__":
