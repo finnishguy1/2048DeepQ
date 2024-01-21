@@ -7,7 +7,7 @@ class Game2048:
         self.height = height
         self.width = width
 
-        self.grid = [[0 for _ in range(self.width)] for _ in range(self.width)]
+        self.grid = self.create_empty_grid()
         self.score = 0
 
     def move(self, dir):
@@ -99,6 +99,13 @@ class Game2048:
             for j in range(self.width):
                 if i > j:
                     self.grid[i][j], self.grid[j][i] = self.grid[j][i], self.grid[i][j]
+
+    def create_empty_grid(self):
+        self.grid = [[0 for _ in range(self.width)] for _ in range(self.width)]
+
+    def get_random_action(self):
+
+
 
     def reset(self):
         self.grid = [[0 for _ in range(self.width)] for _ in range(self.width)]
