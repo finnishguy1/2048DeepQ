@@ -95,6 +95,10 @@ def play(env, model, model_prime, epsilon, c, copy, batch_size):
 
         model.fit(x, y, batch_size=batch_size, epochs=1)
 
+        if steps >= copy:
+            steps = 0
+            model2 = modelCopy(model)
+
 
 def main():
     # defining parametres
@@ -103,7 +107,7 @@ def main():
     epsilon = 0.1
     env = Game2048(4, 4)
     batch_size = 1
-    copy = 10
+    copy = 20
     c = 10
     model = define_model()
     model_prime = modelCopy(model)
