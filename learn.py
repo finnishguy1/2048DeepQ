@@ -1,5 +1,6 @@
 import random
 from math import pow
+from collections import deque
 
 import numpy as np
 import tensorflow as tf
@@ -49,7 +50,6 @@ def epsilon_greedy(env, model, epsilon):
 def do_step(env, model, epsilon):
     state = env.state()
     old_score = env.score()
-    q = model(make_model_compatible(state))
 
     action = epsilon_greedy(env, model, epsilon)
     env.move(action)
@@ -60,7 +60,7 @@ def do_step(env, model, epsilon):
 
 
 def go_forward_c_steps(env, model, epsilon, c):
-    cur_sars = []
+    cur_sars = deque()
     while not env.lost() and c > 0:
         cur_sars.append(do_step(env, model, epsilon))
         c -= 1
@@ -68,12 +68,13 @@ def go_forward_c_steps(env, model, epsilon, c):
 
 
 def play(env, model, epsilon, copy, gamma, batch_size):
-    sars = []
+    sars = deque()
 
     while not env.lost():
         sars.extend(go_forward_c_steps(env, model, epsilon, copy))
 
         # now we need to train/fit the model
+        batch = []
 
 
 def main():
@@ -91,7 +92,7 @@ def main():
     sarsa = []
     while iterations < limit:
         env.reset()
-        play(env, epsilon, copy, gamma, batch_size)
+        play(env, model, epsilon, copy, gamma, batch_size)
         iterations += 1
 
 
